@@ -4,6 +4,7 @@ import ch.zli.coworkingSpace.model.MemberEntity;
 import ch.zli.coworkingSpace.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +29,15 @@ public class MemberService {
         return repository.findById(MemberId);
     }
 
-    public MemberEntity create(MemberEntity Member) {
-        log.info("Executing create Member with id " + Member.getId() + " ...");
-        return repository.save(Member);
+    public MemberEntity create(MemberEntity member) {
+        log.info("Executing create Member with id " + member.getId() + " ...");
+        member.setPassword(BCrypt.hashpw(member.getPassword(), BCrypt.gensalt()));
+        return repository.save(member);
     }
 
     public MemberEntity update(MemberEntity updateMember) {
         log.info("Executing update Member with id " + updateMember.getId() + " ...");
-
+        updateMember.setPassword(BCrypt.hashpw(updateMember.getPassword(), BCrypt.gensalt()));
         return repository.save(updateMember);
     }
 
