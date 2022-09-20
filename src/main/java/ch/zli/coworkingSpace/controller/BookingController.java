@@ -3,10 +3,13 @@ package ch.zli.coworkingSpace.controller;
 
 import ch.zli.coworkingSpace.model.BookingEntity;
 import ch.zli.coworkingSpace.service.BookingService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
@@ -19,6 +22,12 @@ public class BookingController {
     public BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
     }
+
+    @Operation(
+            summary = "Get all Bookings",
+            description = "Loads all Bookings from database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
     @GetMapping("/bookings")
     public ResponseEntity<Iterable<BookingEntity>> getBooking() {
         return ResponseEntity
@@ -26,6 +35,12 @@ public class BookingController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookingService.loadAll());
     }
+
+    @Operation(
+            summary = "Get one specific booking by id",
+            description = "Loads one specific booking by id from database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
     @GetMapping("/bookings/{id}")
     public ResponseEntity<Optional<BookingEntity>>
     getBooking(@PathVariable long id) {
@@ -42,6 +57,13 @@ public class BookingController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @Operation(
+            summary = "Create a new booking",
+            description = "Creates a new booking in database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/bookings")
     public ResponseEntity<BookingEntity>
     addBooking(@RequestBody BookingEntity bookingDate) {
@@ -53,6 +75,29 @@ public class BookingController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookingDate);
     }
+
+    @Operation(
+            summary = "Update an existing booking",
+            description = "Updates one specific and existing booking in database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/bookings/{id}")
+    public ResponseEntity<BookingEntity>
+    updateBookingDate(@RequestBody BookingEntity bookingDate) {
+
+        bookingService.create(bookingDate);
+        return ResponseEntity.status(HttpStatus.CREATED)  // HTTP 201
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(bookingDate);
+    }
+
+    @Operation(
+            summary = "Delete an existing booking",
+            description = "Deletes one specific and existing booking in database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/bookings/{id}")
     public ResponseEntity<?>
     deleteBooking(@PathVariable long id) {
@@ -66,6 +111,4 @@ public class BookingController {
             return ResponseEntity.notFound().build();   // HTTP 404
         }
     }
-
-
 }
