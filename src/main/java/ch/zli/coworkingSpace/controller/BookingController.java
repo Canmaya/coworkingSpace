@@ -53,6 +53,19 @@ public class BookingController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(bookingDate);
     }
+    @DeleteMapping("/bookings/{id}")
+    public ResponseEntity<?>
+    deleteBooking(@PathVariable long id) {
+        Optional<BookingEntity> bookingDate = bookingService.loadOne(id);
+
+        if (bookingDate.isPresent()) {
+            System.out.println("deleted bookingDate");
+            bookingService.delete(id);
+            return ResponseEntity.noContent().build();  // HTTP 204
+        } else {
+            return ResponseEntity.notFound().build();   // HTTP 404
+        }
+    }
 
 
 }
