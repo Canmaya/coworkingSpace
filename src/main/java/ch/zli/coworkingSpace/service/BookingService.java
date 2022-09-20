@@ -12,8 +12,8 @@ import java.util.Optional;
 public class BookingService {
     private final BookingRepository repository;
 
-    public BookingService(BookingRepository BookingRepository) {
-        this.repository = BookingRepository;
+    public BookingService(BookingRepository bookingRepository) {
+        this.repository = bookingRepository;
     }
 
     public List<BookingEntity> loadAll() {
@@ -21,9 +21,9 @@ public class BookingService {
         return (List<BookingEntity>) repository.findAll();
     }
 
-    public Optional<BookingEntity> loadOne(Long gameId) {
-        log.info("Executing find booking date with id " + gameId + " ...");
-        return repository.findById(gameId);
+    public Optional<BookingEntity> loadOne(Long bookingId) {
+        log.info("Executing find booking date with id " + bookingId + " ...");
+        return repository.findById(bookingId);
     }
 
     public BookingEntity create(BookingEntity bookingDate) {
@@ -38,7 +38,7 @@ public class BookingService {
     }
 
     public void delete(Long bookingDateId) {
-        log.info("Executing delete game with id " + bookingDateId + " ...");
+        log.info("Executing delete booking with id " + bookingDateId + " ...");
         repository.deleteById(bookingDateId);
     }
 }
