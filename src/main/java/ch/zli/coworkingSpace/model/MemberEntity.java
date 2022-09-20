@@ -49,6 +49,10 @@ public class MemberEntity implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
+
     @Override
     public int hashCode() {
         return getClass().hashCode();
