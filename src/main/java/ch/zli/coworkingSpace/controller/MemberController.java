@@ -69,5 +69,10 @@ public class MemberController {
                 .body(member);
     }
 
+    @DeleteMapping("/members/{id}")
+    public ResponseEntity<?>
+    deleteMember(@PathVariable Long id) {
+         memberService.delete(id);
+            return ResponseEntity.noContent().build();  // HTTP 204
+    }
 }
-
