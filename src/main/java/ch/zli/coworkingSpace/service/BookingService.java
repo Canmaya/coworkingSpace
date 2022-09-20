@@ -13,7 +13,6 @@ import java.util.Optional;
 public class BookingService {
     private final BookingRepository repository;
 
-    @Autowired
     public BookingService(BookingRepository bookingRepository) {
         this.repository = bookingRepository;
     }
@@ -23,7 +22,7 @@ public class BookingService {
         return (List<BookingEntity>) repository.findAll();
     }
 
-    public Optional<BookingEntity> loadOne(Long bookingId) {
+   public Optional<BookingEntity> loadOne(Long bookingId) {
         log.info("Executing find booking date with id " + bookingId + " ...");
         return repository.findById(bookingId);
     }

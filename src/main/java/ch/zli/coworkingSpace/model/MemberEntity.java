@@ -29,10 +29,10 @@ public class MemberEntity implements Serializable {
     UUID id = UUID.randomUUID();
 
     @Column(name = "first_name", nullable = false)
-    String firstname;
+    String firstName;
 
     @Column(name = "last_name", nullable = false)
-    String lastname;
+    String lastName;
 
     @Column(name = "gender", nullable = false)
     String gender;
@@ -51,10 +51,4 @@ public class MemberEntity implements Serializable {
 
     @Column(name = "email", nullable = false)
     private String email;
-
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
 }

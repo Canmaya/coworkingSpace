@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
 import java.security.Timestamp;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -15,11 +16,15 @@ public class BookingEntity {
     private Long id;
 
     @Column(name = "date", nullable = false)
-    private Timestamp date;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @Column(name = "whole_day", nullable = false)
     private boolean wholeDay;
 
     @Column(name = "booked", nullable = false)
     private boolean booked;
+
+    @Column(name = "member_id", nullable = false)
+    private Long memberId;
 }
