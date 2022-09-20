@@ -59,5 +59,15 @@ public class MemberController {
                 .body(member);
     }
 
+    @PutMapping("/members/{id}")
+    public ResponseEntity<MemberEntity>
+    updateMember(@RequestBody MemberEntity member) {
+
+        memberService.create(member);
+        return ResponseEntity.status(HttpStatus.CREATED)  // HTTP 201
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(member);
+    }
+
 }
 
