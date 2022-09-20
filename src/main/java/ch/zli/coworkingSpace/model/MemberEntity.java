@@ -5,10 +5,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -22,11 +19,9 @@ import java.util.UUID;
 public class MemberEntity implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    UUID id = UUID.randomUUID();
+    Long id;
 
     @Column(name = "first_name", nullable = false)
     String firstName;

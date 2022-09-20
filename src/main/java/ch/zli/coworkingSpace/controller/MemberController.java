@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MemberController {
@@ -19,6 +20,23 @@ public class MemberController {
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @GetMapping("/members/{id}")
+    public ResponseEntity<Optional<MemberEntity>>
+    getMember(@PathVariable Long id) {
+        Optional<MemberEntity> user = memberService.loadOne(id);
+
+        if (user.isPresent()) {
+            System.out.println("Accessing single date, HTTP: 200");
+            return ResponseEntity
+                    .status(HttpStatus.OK)  // HTTP 200
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(user);
+        } else {
+            System.out.println("Accessing single joke, HTTP: 404");
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/members")
