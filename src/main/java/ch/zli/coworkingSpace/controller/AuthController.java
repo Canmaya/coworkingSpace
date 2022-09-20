@@ -114,7 +114,7 @@ public class AuthController {
     )
     @PostMapping(value = "/register", produces = "application/json")
     public TokenResponse register(
-            @Parameter(description = "First Name", required = true)
+            @Parameter(description = "Id", required = true)
             @RequestParam(name = "id", required = true)
                     Long id,
             @Parameter(description = "First Name", required = true)
@@ -127,10 +127,10 @@ public class AuthController {
             @RequestParam(name = "gender", required = true)
                     String gender,
             @Parameter(description = "job", required = true)
-            @RequestParam(name = "jobb", required = true)
+            @RequestParam(name = "job", required = true)
                     String job,
             @Parameter(description = "user description", required = true)
-            @RequestParam(name = "firstName", required = true)
+            @RequestParam(name = "description", required = true)
                     String userDescription,
             @Parameter(description = "Password", required = true)
             @RequestParam(name = "password", required = true)

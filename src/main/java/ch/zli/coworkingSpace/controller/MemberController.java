@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -22,23 +23,33 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @Operation(
+            summary = "Get one specific member by id",
+            description = "Loads one specific member by id from database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/members/{id}")
     public ResponseEntity<Optional<MemberEntity>>
     getMember(@PathVariable Long id) {
         Optional<MemberEntity> user = memberService.loadOne(id);
 
         if (user.isPresent()) {
-            System.out.println("Accessing single date, HTTP: 200");
             return ResponseEntity
                     .status(HttpStatus.OK)  // HTTP 200
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(user);
         } else {
-            System.out.println("Accessing single joke, HTTP: 404");
             return ResponseEntity.notFound().build();
         }
     }
 
+    @Operation(
+            summary = "Get all members",
+            description = "Loads all members from database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/members")
     public ResponseEntity<List<MemberEntity>> getMembers() {
         return ResponseEntity
@@ -47,11 +58,15 @@ public class MemberController {
                 .body(memberService.loadAll());
     }
 
+    @Operation(
+            summary = "Create a new member",
+            description = "Creates a new member in database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/members")
     public ResponseEntity<MemberEntity>
     addMember(@RequestBody MemberEntity member) {
-        System.out.println("booking created");
-
         memberService.create(member);
         return ResponseEntity
                 .status(HttpStatus.CREATED)  // HTTP 201
@@ -59,6 +74,12 @@ public class MemberController {
                 .body(member);
     }
 
+    @Operation(
+            summary = "Update an existing user",
+            description = "Updates one specific and existing user in database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/members/{id}")
     public ResponseEntity<MemberEntity>
     updateMember(@RequestBody MemberEntity member) {
@@ -69,6 +90,12 @@ public class MemberController {
                 .body(member);
     }
 
+    @Operation(
+            summary = "Delete an existing member",
+            description = "Deletes one specific and existing member in database.",
+            security = {@SecurityRequirement(name = "JWT Auth")}
+    )
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/members/{id}")
     public ResponseEntity<?>
     deleteMember(@PathVariable Long id) {
