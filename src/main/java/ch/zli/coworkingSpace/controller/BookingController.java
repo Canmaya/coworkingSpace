@@ -28,7 +28,7 @@ public class BookingController {
     }
     @GetMapping("/bookings/{id}")
     public ResponseEntity<Optional<BookingEntity>>
-    getJoke(@PathVariable long id) {
+    getBooking(@PathVariable long id) {
         Optional<BookingEntity> booking = bookingService.loadOne(id);
 
         if (booking.isPresent()) {
@@ -42,4 +42,17 @@ public class BookingController {
             return ResponseEntity.notFound().build();
         }
     }
+    @PostMapping("/bookings")
+    public ResponseEntity<BookingEntity>
+    addBooking(@RequestBody BookingEntity bookingDate) {
+        System.out.println("booking created");
+
+        bookingService.create(bookingDate);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)  // HTTP 201
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(bookingDate);
+    }
+
+
 }

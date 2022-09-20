@@ -3,6 +3,7 @@ package ch.zli.coworkingSpace.service;
 import ch.zli.coworkingSpace.model.BookingEntity;
 import ch.zli.coworkingSpace.repository.BookingRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +13,7 @@ import java.util.Optional;
 public class BookingService {
     private final BookingRepository repository;
 
+    @Autowired
     public BookingService(BookingRepository bookingRepository) {
         this.repository = bookingRepository;
     }
