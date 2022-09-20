@@ -46,5 +46,18 @@ public class MemberController {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(memberService.loadAll());
     }
+
+    @PostMapping("/members")
+    public ResponseEntity<MemberEntity>
+    addMember(@RequestBody MemberEntity member) {
+        System.out.println("booking created");
+
+        memberService.create(member);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)  // HTTP 201
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(member);
+    }
+
 }
 
