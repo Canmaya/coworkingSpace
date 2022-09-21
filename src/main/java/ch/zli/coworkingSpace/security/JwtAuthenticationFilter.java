@@ -31,21 +31,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     public void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
         val authToken = jwtService.resolveKey(request);
-        Long userId = null;
+        long userId = 0;
         var requestedAuthorities = new ArrayList<String>();
 
         if (authToken != null) {
             DecodedJWT decoded;
             try {
                 decoded = jwtService.verifyJwt(authToken, true);
-                userId = decoded.getClaim("user_id").asLong();
+                if(decoded.getClaim("user_id") == null){
+                    userId = 0;
+                } else {
+                    System.out.println(decoded.getClaim("user_id").asString());
+                    userId = Long.parseLong(decoded.getClaim("user_id").asString());
+                }
                 requestedAuthorities = jwtService.getRequestedAuthorities(decoded);
             } catch (GeneralSecurityException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (userId != 0 && SecurityContextHolder.getContext().getAuthentication() == null) {
             var optionalUser = memberRepository.findById(userId);
 
             if (optionalUser.isEmpty()) {

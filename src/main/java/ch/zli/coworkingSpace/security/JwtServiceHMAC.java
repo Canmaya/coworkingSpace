@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -26,6 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+
 @Service
 public class JwtServiceHMAC implements UserDetailsService {
     @Autowired
@@ -33,8 +35,8 @@ public class JwtServiceHMAC implements UserDetailsService {
 
     private final String secret = "YcMyGyq?q&SAy86MR!h";
 
-    public UserDetails getUserDetails(MemberEntity member, List<String> requestedAuthorities) {
-        return new User(member.getId().toString(), "", getAuthority(requestedAuthorities));
+    public UserDetails getUserDetails(MemberEntity user, List<String> requestedAuthorities) {
+        return new User(user.getId().toString(), "", getAuthority(requestedAuthorities));
     }
 
     @Override
