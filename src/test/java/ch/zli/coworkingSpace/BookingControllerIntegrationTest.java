@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class BookingControllerIntegrationTest {
-    /*
+/*
     @Autowired
     private MockMvc mockMvc;
 
@@ -45,7 +45,7 @@ public class BookingControllerIntegrationTest {
 
         assertEquals(3, bookings.size());
     }
+*/
 
-     */
 
 }
