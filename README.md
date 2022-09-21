@@ -1,12 +1,12 @@
 # 223 Final project
-#About Coworking space in general
+#About Coworking space
 
 Coworking is an arrangement in which workers of different companies book a place and share an office space.
 
-##About the project
+#About the project
 - This project is written in spring boot.
 
-##Preparation
+#Preparation
 1. First clone the whole project https://github.com/Canmaya/coworkingSpace
 2. Make sure you have docker installed on your device.
 3. Make sure you have intellij installed on your device.
